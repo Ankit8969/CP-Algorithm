@@ -1,4 +1,4 @@
-## Shortest path in Directed Acyclic Graph
+## Shortest path in Directed Acyclic Graph with weighted edges
 Given a Directed Acyclic Graph of V vertices from 0 to n-1 and a 2D Integer array(or vector) edges[ ][ ] of length E, where there is a directed edge from edge[i][0] to edge[i][1] with a distance of edge[i][2] for all i.
 
 Find the shortest path from src(0) vertex to all the vertices and if it is impossible to reach any vertex, then return -1 for that vertex.
@@ -67,3 +67,44 @@ class Solution {
     }
 };
 ```
+
+## Shortest path with weighted edegs - 1
+
+You are given an adjacency matrix, adj of Undirected Graph having unit weight of the edges, find the shortest path from src to all the vertex and if it is unreachable to reach any vertex, then return -1 for that vertex.
+
+```
+class Solution {
+  public:
+    // Function to find the shortest path from source to all other nodes
+    vector<int> shortestPath(vector<vector<int>>& adj, int src) {
+        // code here
+        int n = adj.size();
+        vector<int> dis(n, 1e9);
+        queue<pair<int,int>> q;
+        q.push({src, 0});
+        dis[src] = 0;
+        
+        while(q.size() > 0) {
+            pair<int,int> node = q.front();
+            q.pop();
+            int u = node.first;
+            int dist = node.second;
+            
+            for(auto x: adj[u]) {
+                int newDistance = dist + 1;
+                if(newDistance < dis[x]){
+                    dis[x] = newDistance;
+                    q.push({ x, newDistance });
+                }
+            }
+        }
+            
+        for(int i=0;i<n;i++){
+            if(dis[i] == 1e9)  dis[i] = -1;
+        }
+        return dis;
+        
+    }
+};
+```
+
